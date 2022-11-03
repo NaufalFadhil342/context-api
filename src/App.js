@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useState } from 'react';
+import UserContext from './components/helper/userContext';
 
-function App() {
+const Parent = () => {
+  const [username, setUsername] = useState('PedroTech');
+  const [count, setCount] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{ username, setUsername, count, setCount }}>
+      <Child1 />
+      <Child2 />
+      <Child3 />
+      <Child4 />
+    </UserContext.Provider>
   );
-}
+};
 
-export default App;
+export const Child1 = () => {
+  const { username } = useContext(UserContext);
+
+  return <h1>{username}</h1>;
+};
+
+export const Child2 = () => {
+  const { setUsername } = useContext(UserContext);
+
+  return (
+    <button
+      onClick={() => {
+        setUsername('PedroTechnologies');
+      }}
+    >
+      Change Username
+    </button>
+  );
+};
+
+export const Child3 = () => {
+  const { count } = useContext(UserContext);
+
+  return <h3>{count}</h3>;
+};
+
+export const Child4 = () => {
+  const { setCount } = useContext(UserContext);
+
+  return (
+    <button
+      onClick={() => {
+        setCount((c) => c + 1);
+      }}
+    >
+      Change Count
+    </button>
+  );
+};
+
+export default Parent;
